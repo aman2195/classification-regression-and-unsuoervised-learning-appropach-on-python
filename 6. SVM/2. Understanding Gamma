@@ -1,0 +1,42 @@
+from sklearn import datasets
+from sklearn.preprocessing import StandardScaler
+import numpy
+
+iris = datasets.load_iris()
+X = iris.data[:,:2]
+y = iris.target
+
+scaler = StandardScaler()
+X_std = scaler.fit_transform(X)
+
+from matplotlib.colors import ListedColormap
+from matplotlib import pyplot
+def plot_decision_regions(X, y, classifier):
+    cmap = ListedColormap(("red", "blue","green"))
+    xx1, xx2 = numpy.meshgrid(numpy.arange(-5, 5, 0.02), numpy.arange(-5, 5, 0.02))
+    Z = classifier.predict(numpy.array([xx1.ravel(), xx2.ravel()]).T)
+    Z = Z.reshape(xx1.shape)
+    pyplot.contourf(xx1, xx2, Z, alpha=0.1, cmap=cmap)
+    
+    for idx, cl in enumerate(numpy.unique(y)):
+        pyplot.scatter(x=X[y.ravel() == cl, 0], y=X[y.ravel() == cl, 1],alpha=0.8, c=cmap(idx),marker="+", label=cl)
+
+from sklearn.svm import SVC        
+svc = SVC(kernel="linear", random_state=0)
+model4= svc.fit(X_std,y)
+plot_decision_regions(X_std, y, classifier=model4)
+
+svc= SVC(kernel="rbf", random_state=0)
+model5= svc.fit(X_std, y)
+plot_decision_regions(X_std, y, classifier=model5)
+
+svc= SVC(kernel="rbf", random_state=0, C=10, gamma=1)
+model6= svc.fit(X_std, y)
+plot_decision_regions(X_std, y, classifier=model6)
+
+from sklearn.model_selection import cross_val_score
+for i in range(1,10):
+    svc= SVC(kernel="rbf", random_state=0, gamma=i)
+    model7= svc.fit(X_std, y)
+    scores = cross_val_score(estimator=model7, X=X_std, y=y, cv=5)
+    print(i, ':', numpy.average(scores))

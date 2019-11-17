@@ -1,0 +1,21 @@
+# Load Libraries
+from sklearn.linear_model import LinearRegression
+import pandas
+
+# Import Data
+usedcar_df = pandas.read_csv(r"C:\Users\vchan\OneDrive\Desktop\INSY 662 - Data mining\Session 2\ToyotaCorolla.csv")
+
+# Setup and Run the model
+lm2 = LinearRegression()
+X = usedcar_df.iloc[:,3:]
+y=usedcar_df['Price']
+model2 = lm2.fit(X,y)
+
+# View Results
+model2.intercept_
+model2.coef_
+
+pandas.DataFrame(list(zip(X.columns,model2.coef_)), columns = ['predictor','coefficient'])
+
+
+

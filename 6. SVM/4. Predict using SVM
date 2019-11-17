@@ -1,0 +1,16 @@
+from sklearn.svm import SVC
+from sklearn import datasets
+from sklearn.preprocessing import StandardScaler
+
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+scaler = StandardScaler()
+X_std = scaler.fit_transform(X)
+
+svc = SVC(kernel="linear", probability=True, random_state=0)
+model = svc.fit(X_std, y)
+
+new_observation = [[.4, .4, .4, .4]]
+model.predict_proba(new_observation)

@@ -1,0 +1,23 @@
+import pandas
+
+adult_df = pandas.read_csv(r"C:\Users\vchan\OneDrive\Desktop\INSY 662 - Data mining\Session 5\Complete codes\Adult.csv")
+
+# Dummify variables
+adult_df= pandas.get_dummies(adult_df, columns = ['race', 'sex', 'workclass','marital-status'])
+
+X = adult_df.iloc[:,1:]
+y = adult_df.iloc[:,0]
+
+# Split the data into training and test set
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.33, random_state=5)
+
+# Cross-validation
+from sklearn.tree import DecisionTreeClassifier
+decisiontree= DecisionTreeClassifier(max_depth=3)
+model = decisiontree.fit(X_train, y_train)
+y_test_pred = model.predict(X_test)
+
+from sklearn.metrics import accuracy_score
+
+accuracy_score(y_test, y_test_pred)

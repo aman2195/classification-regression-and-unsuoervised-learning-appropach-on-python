@@ -1,0 +1,52 @@
+
+
+X = [[0],[2],[4],[6],[10]]
+
+from sklearn.cluster import KMeans
+kmeans=KMeans(n_clusters=2)
+model= kmeans.fit(X)
+labels = model.labels_
+
+#silhouette score of each point
+from sklearn.metrics import silhouette_samples
+silhouette_samples(X, labels)
+
+#overall silhoutte score
+from sklearn.metrics import silhouette_score
+silhouette_score(X, labels)
+
+#To get silhouette score of each cluster, get avearge score of each label
+
+#The correct method is to study the overall mean silhouette value and check silhouettes for each cluster
+
+from sklearn import datasets
+import numpy
+
+iris = datasets.load_iris()
+X = iris.data[:,:2]
+
+from sklearn.cluster import KMeans
+kmeans= KMeans(n_clusters=3)
+model=kmeans.fit(X)
+labels= model.labels_
+
+from sklearn.metrics import silhouette_samples
+silhouette = silhouette_samples(X,labels)
+
+import pandas
+df = pandas.DataFrame({'label':labels,'silhouette':silhouette})
+
+print('Average Silhouette Score for Cluster 0: ',numpy.average(df[df['label'] == 0].silhouette))
+print('Average Silhouette Score for Cluster 1: ',numpy.average(df[df['label'] == 1].silhouette))
+print('Average Silhouette Score for Cluster 2: ',numpy.average(df[df['label'] == 2].silhouette))
+
+from sklearn.metrics import silhouette_score
+silhouette_score(X, labels)
+
+# Optimal K
+from sklearn.metrics import silhouette_score
+for i in range (2,8):    
+    kmeans = KMeans(n_clusters=i)
+    model = kmeans.fit(X)
+    labels = model.labels_
+    print(i,':',numpy.average(silhouette_score(X,labels)))

@@ -1,0 +1,20 @@
+from sklearn.neighbors import KNeighborsClassifier
+import numpy
+import pandas
+
+data = numpy.array([['Dark',0.0467,0.2471],['Medium',0.0533,0.1912],['Light',0.0917,0.2794]])
+column_names = ['Class', 'Age', 'Na/K (MMN)']
+row_names  = ['A', 'B', 'C']
+df = pandas.DataFrame(data, columns=column_names, index=row_names)
+
+X = df.iloc[:,1:3]
+y = df['Class']
+
+knn = KNeighborsClassifier(n_neighbors=2).fit(X,y)
+
+new_obs = [[0.0917,0.2794]]
+
+knn.predict(new_obs)
+
+
+new_obs = [[0.05,0.25]]

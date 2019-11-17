@@ -1,0 +1,11 @@
+#Usual way
+randomforest_default= RandomForestClassifier(random_state=5)
+model_default=randomforest_default.fit(X_train,y_train)
+y_test_pred_default= model_default.predict(X_test)
+confusion_matrix(y_test,y_test_pred_default)
+
+#Imbalance
+randomforest_balanced= RandomForestClassifier(random_state=5, class_weight = "balanced")
+model_balanced=randomforest_balanced.fit(X_train,y_train)
+y_test_pred_balanced= model_balanced.predict(X_test)
+confusion_matrix(y_test,y_test_pred_balanced)

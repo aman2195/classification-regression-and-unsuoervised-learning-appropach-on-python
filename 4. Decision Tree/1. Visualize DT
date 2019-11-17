@@ -1,0 +1,32 @@
+import pandas
+
+adult_df = pandas.read_csv(r"C:\Users\vchan\OneDrive\Desktop\INSY 662 - Data mining\Session 5\Complete codes\Adult.csv")
+
+# Encode the categorical variables (decision tree in sklearn only takes numerical variables)
+from sklearn.preprocessing import LabelEncoder
+
+for column in adult_df.columns:
+    if adult_df[column].dtype==type(object):
+        le=LabelEncoder()
+        adult_df[column]=le.fit_transform(adult_df[column])
+
+# Define dependent and independent variables
+X = adult_df.iloc[:,1:]
+y = adult_df.iloc[:,0]
+
+# Run decision tree
+from sklearn.tree import DecisionTreeClassifier
+decisiontree=DecisionTreeClassifier(max_depth=3)
+model=decisiontree.fit(X,y)
+
+# Print the tree
+from sklearn.tree import export_graphviz
+dot_data = export_graphviz(decisiontree, feature_names=list(X), class_names=['<=50K', '>50K'], filled=True, rounded=True, out_file=None)
+
+import pydotplus
+import os     
+# Insert graphviz path here (typically at C:\\ProgramData\\Anaconda3\\Library\\bin)
+os.environ["PATH"] += os.pathsep + r'C:\Users\vchan\Anaconda3\Lib\site-packages'
+graph=pydotplus.graph_from_dot_data(dot_data)
+# Insert the path to save the picture
+graph.write_png(r"C:\Users\vchan\OneDrive\Desktop\INSY 662 - Data mining\Session 5\Complete codes\dtree.png")

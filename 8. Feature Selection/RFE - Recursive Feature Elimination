@@ -1,0 +1,16 @@
+
+import pandas
+
+bank_df = pandas.read_csv(r"C:\Users\vchan\OneDrive\Desktop\INSY 662 - Data mining\Session 9\UniversalBank.csv")
+
+X = bank_df.iloc[:,1:12]
+y = bank_df["Personal Loan"]
+
+from sklearn.feature_selection import RFE
+from sklearn.linear_model import LogisticRegression
+
+lr = LogisticRegression()
+rfe = RFE(lr,3)
+model= rfe.fit(X,y)
+
+pandas.DataFrame(list(zip(X.columns,model.ranking_)), columns = ['predictor','ranking'])

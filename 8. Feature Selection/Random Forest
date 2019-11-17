@@ -1,0 +1,21 @@
+import pandas
+
+bank_df = pandas.read_csv(r"C:\Users\vchan\OneDrive\Desktop\INSY 662 - Data mining\Session 9\UniversalBank.csv")
+
+X = bank_df.iloc[:,1:12]
+y = bank_df["Personal Loan"]
+
+from sklearn.ensemble import RandomForestClassifier
+randomforest = RandomForestClassifier(random_state=0)
+
+model = randomforest.fit(X,y)
+
+from sklearn.feature_selection import SelectFromModel
+sfm = SelectFromModel(model, threshold=0.05)
+sfm.fit(X,y)
+for feature_list_index in sfm.get_support(indices=True):
+    print(X.columns[feature_list_index])
+
+#Refer to notes to understand how to predict this table    
+pandas.DataFrame(list(zip(X.columns,model.feature_importances_)), columns = ['predictor','Gini coefficient'])
+

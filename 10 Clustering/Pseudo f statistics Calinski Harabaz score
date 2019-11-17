@@ -1,0 +1,16 @@
+X = [[0],[2],[4],[6],[10]]
+
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters=2)
+model = kmeans.fit(X)
+labels = model.labels_
+
+from sklearn.metrics import calinski_harabaz_score
+score= calinski_harabaz_score(X, labels)
+
+#define k here
+from scipy.stats import f
+df1 = 1 # df1 = k-1
+df2 = 3 # df2 = n-k
+pvalue = 1- f.cdf(score, df1, df2)
+pvalue

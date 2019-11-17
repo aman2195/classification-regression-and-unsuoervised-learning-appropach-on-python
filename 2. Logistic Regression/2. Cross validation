@@ -1,0 +1,31 @@
+# Load libraries
+from sklearn.linear_model import LogisticRegression
+import pandas
+
+# Load and contruct the data
+churn_df = pandas.read_csv(r"C:\Users\vchan\OneDrive\Desktop\INSY 662 - Data mining\Session 3\Churn.csv")
+X = churn_df.iloc[:,4:12]
+y = churn_df["Churn"]
+
+# Split the data
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.33, random_state=5)
+
+# Run the model
+lr3=LogisticRegression()
+model3 = lr3.fit(X_train, y_train)
+
+# View results
+model3.intercept_
+model3.coef_
+
+
+pandas.DataFrame(list(zip(X_train.columns,model3.coef_[0])), columns = ['predictor','coefficient'])
+
+# Calculate the accuracy score
+from sklearn import metrics
+y_test_pred = lr3.predict(X_test)
+print(metrics.accuracy_score(y_test,y_test_pred))
+
+# Develop the confusion matrix
+metrics.confusion_matrix(y_test, y_test_pred)

@@ -1,0 +1,20 @@
+import pandas
+import numpy
+
+adult_df = pandas.read_csv(r"C:\Users\vchan\OneDrive\Desktop\INSY 662 - Data mining\Session 5\Complete codes\Adult.csv")
+
+# Dummify variables
+adult_df = pandas.get_dummies(adult_df, columns = ['race','sex','workclass','marital-status'])
+
+X = adult_df.iloc[:,1:]
+y = adult_df.iloc[:,0]
+
+# K-fold cross validation
+
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import cross_val_score
+
+for i in range(2,21):
+    model2= DecisionTreeClassifier(max_depth=i)
+    scores = cross_val_score(estimator=model2, X=X, y=y, cv=5)
+    print(i, ':', numpy.average(scores))

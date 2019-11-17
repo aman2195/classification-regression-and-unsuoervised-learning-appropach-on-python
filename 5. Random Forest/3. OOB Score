@@ -1,0 +1,14 @@
+import pandas
+
+adult_df = pandas.read_csv("Adult.csv")
+
+adult_df = pandas.get_dummies(adult_df, columns = ['race','sex','workclass','marital-status'])
+
+X = adult_df.iloc[:,1:]
+y = adult_df.iloc[:,0]
+
+from sklearn.ensemble import RandomForestClassifier
+randomforest = RandomForestClassifier(random_state=5, oob_score=True)
+
+model4= randomforest.fit(X,y)
+model4.oob_score_

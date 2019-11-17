@@ -1,0 +1,36 @@
+import pandas
+import numpy
+
+sample_df = pandas.read_csv(r"C:\Users\vchan\OneDrive\Desktop\INSY 662 - Data mining\Session 7\svm_example_kernel.csv")
+
+X_df = sample_df.iloc[:,0:2]
+y_df = sample_df.iloc[:,2:3]
+
+X = X_df.values
+y = y_df.values
+
+from matplotlib import pyplot
+color = ["red" if c == 0 else "blue" for c in y]
+pyplot.scatter(X[:,0], X[:,1], c=color)
+
+from matplotlib.colors import ListedColormap
+def plot_decision_regions(X, y, classifier):
+    cmap = ListedColormap(("red", "blue"))
+    xx1, xx2 = numpy.meshgrid(numpy.arange(-5, 5, 0.02), numpy.arange(-5, 5, 0.02))
+    Z = classifier.predict(numpy.array([xx1.ravel(), xx2.ravel()]).T)
+    Z = Z.reshape(xx1.shape)
+    pyplot.contourf(xx1, xx2, Z, alpha=0.1, cmap=cmap)
+    
+    for idx, cl in enumerate(numpy.unique(y)):
+        pyplot.scatter(x=X[y.ravel() == cl, 0], y=X[y.ravel() == cl, 1],alpha=0.8, c=cmap(idx),marker="+", label=cl)
+
+from sklearn.svm import SVC
+svc_linear = SVC(kernel="linear", random_state=0)
+model2= svc_linear.fit(X, numpy.ravel(y))
+plot_decision_regions(X, y, classifier=model2)
+
+
+from sklearn.svm import SVC
+svc_rbf = SVC(kernel="rbf", random_state=0)
+model3= svc_rbf.fit(X, numpy.ravel(y))
+plot_decision_regions(X, y, classifier=model3)

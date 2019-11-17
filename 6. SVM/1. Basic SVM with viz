@@ -1,0 +1,30 @@
+from sklearn.svm import SVC
+from sklearn import datasets
+from sklearn.preprocessing import StandardScaler
+import numpy
+
+iris = datasets.load_iris()
+X = iris.data[:100,:2]
+y = iris.target[:100]
+
+# Standardize X
+scaler = StandardScaler()   #z score standardization
+X_std = scaler.fit_transform(X)
+
+# Scatter plot the outcome variables
+from matplotlib import pyplot
+color = ["blue" if c == 0 else "red" for c in y]
+pyplot.scatter(X_std[:,0], X_std[:,1], c=color)
+
+svc=SVC(kernel="linear", random_state=0)
+model1= svc.fit(X_std, y)
+
+# Draw the separator line
+a = -svc.coef_[0][0] / svc.coef_[0][1]
+xx = numpy.linspace(-2.5, 2.5)
+yy = a * xx - (svc.intercept_[0]) / svc.coef_[0][1]
+pyplot.plot(xx, yy)
+
+# Using the model to predict the class of a new observation
+new_observation = [[ -2, 3]]
+svc.predict(new_observation)

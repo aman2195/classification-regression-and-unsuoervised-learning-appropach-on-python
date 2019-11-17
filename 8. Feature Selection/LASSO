@@ -1,0 +1,16 @@
+import pandas
+
+bank_df = pandas.read_csv(r"C:\Users\vchan\OneDrive\Desktop\INSY 662 - Data mining\Session 9\UniversalBank.csv")
+
+X = bank_df.iloc[:,1:12]
+y = bank_df["Personal Loan"]
+
+from sklearn.preprocessing import StandardScaler
+scaler= StandardScaler()
+X_std= scaler.fit_transform(X)
+
+from sklearn.linear_model import Lasso
+model = Lasso(alpha=0.01, positive=True)
+model.fit(X_std,y)
+
+pandas.DataFrame(list(zip(X.columns,model.coef_)), columns = ['predictor','coefficient'])

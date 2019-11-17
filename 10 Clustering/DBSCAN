@@ -1,0 +1,15 @@
+import pandas
+from matplotlib import pyplot
+
+df = pandas.read_csv(r"C:\Users\vchan\OneDrive\Desktop\INSY 662 - Data mining\Session 11\Complete Codes\ClusterExample.csv")
+
+pyplot.scatter(df['x0'], df['x1'])
+pyplot.xlabel("Feature 0")
+pyplot.ylabel("Feature 1")
+pyplot.show()
+
+from sklearn.cluster import DBSCAN
+dbscan = DBSCAN(eps = 0.5, min_samples=2)
+labels=dbscan.fit_predict(df)
+
+pyplot.scatter(df['x0'], df['x1'], c=labels, cmap='rainbow')

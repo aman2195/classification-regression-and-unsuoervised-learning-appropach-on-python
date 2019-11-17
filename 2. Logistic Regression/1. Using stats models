@@ -1,0 +1,32 @@
+# Load libraries
+import statsmodels.api
+
+# Load built-in dataset
+from sklearn.datasets import load_iris
+iris = load_iris()
+
+# Explore the data
+print(iris.keys())
+print(iris.data.shape)
+print(iris.feature_names)
+print(iris.target_names)
+print(iris.DESCR)
+
+# Setup dependent and independent variables
+y = iris.target[0:100]
+X = iris.data[0:100,0:1]
+
+# Run Regression
+logit = statsmodels.api.Logit(y,X)
+model = logit.fit()
+
+# View results
+
+model.summary()
+
+# Add Constant
+X2 = statsmodels.api.add_constant(X)
+
+logit2 = statsmodels.api.Logit(y,X2)
+model2 = logit2.fit()
+model2.summary()

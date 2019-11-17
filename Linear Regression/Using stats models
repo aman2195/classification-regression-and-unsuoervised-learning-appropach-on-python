@@ -1,0 +1,35 @@
+## Example 1 (statsmodels)
+
+# Load libraries
+import statsmodels.api
+
+# Load built-in dataset
+from sklearn.datasets import load_boston
+boston = load_boston()
+
+# Explore the data
+print(boston.keys())
+print(boston.data.shape)
+print(boston.feature_names)
+print(boston.DESCR)
+
+# Setup dependent and independent variables
+y = boston.target
+X = boston.data[:,0:2]
+
+# Run Regression
+regression = statsmodels.api.OLS(y,X)
+model = regression.fit()
+### type your code here ###
+
+# View results
+model.summary()
+
+### type your code here ###
+
+# Add Constant
+X2 = statsmodels.api.add_constant(X)
+
+regression2 = statsmodels.api.OLS(y,X2)
+model2 = regression2.fit()
+model2.summary()
